@@ -11,16 +11,22 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 $examples = [
-    'smooth-scroll'
+    'tabs',
+    'context-menu',
+    'modal',
+    'carousel',
+    'smooth-scroll',
+    'conditional-visibility'
 ];
 
-collect($examples)->each(function ($uri) {
-    Route::get($uri, function () use ($uri) {
-        return view($uri);
+collect($examples)->each(function ($uri) use($examples) {
+    Route::get($uri, function () use ($uri, $examples) {
+        return view("components/$uri")->with('examples', $examples);
     });
 });
+
+Route::get('/', function() use($examples) {
+    return view('home')->with('examples', $examples);
+});
+
